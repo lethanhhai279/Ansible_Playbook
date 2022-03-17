@@ -1,6 +1,6 @@
 ---
 - name: demo
-  hosts: Switch3
+  hosts: all
 
   tasks:
     - name: Create vlan
