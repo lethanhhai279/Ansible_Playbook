@@ -1,0 +1,31 @@
+image: python:latest
+
+stages:
+  - validate
+  - test
+  - build
+  - deploy
+  - request deploy to production
+validate:
+  stage: validate
+  script:
+    - echo "VALIDATE"
+test:
+  stage: test
+  script:
+    - echo "TEST"
+build:
+  stage: build
+  script:
+    - echo "BUILD"
+
+deploy:
+  stage: deploy
+  script:
+    - echo "DEPLOY"
+request deploy to production:
+  stage: request deploy to production
+  script:
+    - echo "request deploy to production:"
+  only:
+    - master
