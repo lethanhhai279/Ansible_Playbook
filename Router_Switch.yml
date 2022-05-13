@@ -1,0 +1,40 @@
+---
+- name: Tao loopback
+  hosts: Router
+  gather_facts: no
+
+  tasks:
+    - name: Dat ip loopback
+      with_items: 
+        - {name: 1}
+        - {name: 2}
+        - {name: 3}
+      ios_l3_interface:
+        name: loopback {{ item.name }}
+        ipv4: 10.0.{{ item.name }}.1/24
+    - name: sh ip int br
+      ios_command:
+        commands: 
+          - sh ip int br
+      register: showip
+    - debug: var=showip.stdout_lines
+
+- name: Tao vlan
+  hosts: Switch
+  gather_facts: no
+
+  tasks:
+  - name: Tao vlan
+    with_items:
+     - {vlan: 10, name: "PKT"}
+     - {vlan: 20, name: "PKD"}
+     - {vlan: 30, name: "PGD"}
+    ios_vlan:
+      vlan_id: "{{ item.vlan }}"
+      name: "{{ item.name }}"
+  - name: sh vlan
+    ios_command:
+      commands: 
+        - sh vlan br
+    register: sh_vlan
+  - debug: var=sh_vlan.stdout_lines
